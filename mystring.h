@@ -12,7 +12,7 @@ private:
     public:
         int ref_count = 1;
 
-        StringValue(const char * s);
+        explicit StringValue(const char * s);
         StringValue(const StringValue & other);
 
         StringValue operator+=(char c);
@@ -31,7 +31,7 @@ private:
 
 public:
     MyString();
-    MyString(const char * s);
+    explicit MyString(const char * s);
     MyString(const MyString & other);
     MyString(MyString && other) noexcept;
 
@@ -48,6 +48,9 @@ public:
 
     char & operator[](int index);
     const char & operator[](int index) const;
+
+    size_t get_size() const;
+    const char * get_data() const;
 
     ~MyString();
 

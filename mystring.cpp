@@ -56,11 +56,11 @@ MyString::StringValue::~StringValue() {
 }
 
 MyString::MyString() {
-    value = new StringValue("");
+    value = new StringValue{""};
 }
 
 MyString::MyString(const char * s) {
-    value = new StringValue(s);
+    value = new StringValue{s};
 }
 
 MyString::MyString(const MyString &other) {
@@ -77,7 +77,7 @@ MyString & MyString::operator=(const char * s) {
     if (--value->ref_count == 0) {
         delete value;
     }
-    value = new StringValue(s);
+    value = new StringValue{s};
     return *this;
 }
 
@@ -94,21 +94,21 @@ MyString & MyString::operator=(const MyString &other) {
 }
 
 MyString MyString::operator+(const char c) const {
-    return MyString(*this) += c;
+    return MyString{*this} += c;
 }
 
 MyString MyString::operator+(const char * s) const {
-    return MyString(*this) += s;
+    return MyString{*this} += s;
 }
 
 MyString MyString::operator+(const MyString &other) const {
-    return MyString(*this) += other;
+    return MyString{*this} += other;
 }
 
 MyString & MyString::operator+=(const char c) {
     if (value->ref_count > 1) {
         --value->ref_count;
-        value = new StringValue(*value);
+        value = new StringValue{*value};
     }
     *value += c;
     return *this;
@@ -117,7 +117,7 @@ MyString & MyString::operator+=(const char c) {
 MyString &MyString::operator+=(const char * s){
     if (value->ref_count > 1) {
         --value->ref_count;
-        value = new StringValue(*value);
+        value = new StringValue{*value};
     }
     *value += s;
     return *this;
@@ -126,7 +126,7 @@ MyString &MyString::operator+=(const char * s){
 MyString & MyString::operator+=(const MyString &other) {
     if (value->ref_count > 1) {
         --value->ref_count;
-        value = new StringValue(*value);
+        value = new StringValue{*value};
     }
     *value += other.value->get_data();
     return *this;
@@ -135,13 +135,21 @@ MyString & MyString::operator+=(const MyString &other) {
 char & MyString::operator[](int index) {
     if (value->ref_count > 1) {
         --value->ref_count;
-        value = new StringValue(*value);
+        value = new StringValue{*value};
     }
     return (*value)[index];
 }
 
 const char & MyString::operator[](int index) const {
     return (*value)[index];
+}
+
+size_t MyString::get_size() const {
+    return value->get_size();
+}
+
+const char *MyString::get_data() const {
+    return value->get_data();
 }
 
 MyString::~MyString() {
