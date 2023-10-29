@@ -97,6 +97,10 @@ MyString MyString::operator+(const char c) const {
     return MyString(*this) += c;
 }
 
+MyString MyString::operator+(const char * s) const {
+    return MyString(*this) += s;
+}
+
 MyString MyString::operator+(const MyString &other) const {
     return MyString(*this) += other;
 }
@@ -107,6 +111,15 @@ MyString & MyString::operator+=(const char c) {
         value = new StringValue(*value);
     }
     *value += c;
+    return *this;
+}
+
+MyString &MyString::operator+=(const char * s){
+    if (value->ref_count > 1) {
+        --value->ref_count;
+        value = new StringValue(*value);
+    }
+    *value += s;
     return *this;
 }
 

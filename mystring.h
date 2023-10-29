@@ -39,9 +39,11 @@ public:
     MyString & operator=(const MyString & other);
 
     MyString operator+(char c) const;
+    MyString operator+(const char * s) const;
     MyString operator+(const MyString & other) const;
 
     MyString & operator+=(char c);
+    MyString & operator+=(const char * s);
     MyString & operator+=(const MyString & other);
 
     char & operator[](int index);
