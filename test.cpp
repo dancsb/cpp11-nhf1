@@ -39,9 +39,8 @@ int main() {
 
     {
         MyString hw{MyString{"Hello "} + "World!"};
-        for (size_t i = 0; i < s3.get_size(); ++i) {
+        for (size_t i = 0; i < s3.get_size(); ++i)
             assert(hw[i] == s3[i]);
-        }
     }
 
     {
@@ -58,6 +57,16 @@ int main() {
         hw[4] = ' ';
         assert(hw.get_size() == 12);
         assert(strcmp(hw.get_data(), "Hell  World!") == 0);
+    }
+
+    {
+        MyString hw{MyString("Hell") + 'o' + " World!" + MyString("!!!")};
+        assert(hw.get_size() == 15);
+        assert(strcmp(hw.get_data(), "Hello World!!!!") == 0);
+
+        hw = "This is the end";
+        assert(hw.get_size() == 15);
+        assert(strcmp(hw.get_data(), "This is the end") == 0);
     }
 
     std::cout << "All test passed" << std::endl;
